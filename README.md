@@ -109,13 +109,7 @@ Recommended: use a local Gradle composite build.
 includeBuild("../ToremaruUtil")
 ```
 
-3. Add the dependency in your app module (example):
-
-```kotlin
-dependencies {
-  implementation("com.github.officeharukaze:ToremaruUtil:0.1.0")
-}
-```
+3. Add the dependency in your app module (see the Japanese section above for an example).
 
 With composite builds, Gradle substitutes the included build so the app compiles against local library sources.
 
