@@ -1,3 +1,78 @@
+# ToremaruUtil
+
+---
+
+## 日本語（前半）
+
+### 概要
+
+ToremaruUtil は、画面右下に小さく「アプリ名」と「バージョン（オプションでビルド番号）」を表示する軽量な Android ライブラリです。開発時の動作確認やデバッグに使います。
+
+### 簡単な導入（開発向け）
+
+1. このライブラリをアプリと同じ階層にチェックアウトしておきます（例: sibling に配置）。
+2. アプリの `settings.gradle.kts` に以下を追加します：
+
+```kotlin
+includeBuild("../ToremaruUtil")
+```
+
+3. アプリの `build.gradle.kts` で通常どおり依存を宣言します（例）：
+
+```kotlin
+dependencies {
+    implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+}
+```
+
+4. Activity から呼び出します：
+
+```kotlin
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
+AppInfoOverlay.remove(this)
+```
+
+必要に応じて `./gradlew publishToMavenLocal` でローカル公開し、`mavenLocal()` 経由で利用することもできます。
+
+---
+
+## English（後半）
+
+### Overview
+
+ToremaruUtil is a small Android library that displays the app name and version (optionally with a build number) as a compact overlay in the bottom-right corner of the screen. It is intended for quick verification during development.
+
+### Quick start (development)
+
+1. Keep a sibling checkout of this library next to your app.
+2. Add the following to the app root `settings.gradle.kts`:
+
+```kotlin
+includeBuild("../ToremaruUtil")
+```
+
+3. Add the dependency in your app module:
+
+```kotlin
+dependencies {
+    implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+}
+```
+
+4. Call from an Activity:
+
+```kotlin
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
+AppInfoOverlay.remove(this)
+```
+
+For CI-based publishing, configure `maven-publish` and your preferred registry.
+
+---
+
+Notes
+
+- This README intentionally contains only a single Japanese section (front) and a single English section (back). If you want additional examples or a deploy guide, create `DEPLOY.md` or open a PR with concrete content.
 
 # ToremaruUtil
 
