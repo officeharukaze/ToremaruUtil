@@ -145,26 +145,4 @@ AppInfoOverlay.remove(this)
 ## Notes
 
 - This README contains concise, practical instructions for consumers. For CI/publishing workflows, add a `DEPLOY.md` and appropriate CI configuration if you plan to publish artifacts.
-
-1. From the library directory:
-
-```bash
-./gradlew publishToMavenLocal
-```
-
-2. Add `mavenLocal()` to your app repositories and resolve the dependency.
-
----
-
-## Usage (Activity)
-
-```kotlin
-AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200, showBuildNumber = false))
-AppInfoOverlay.remove(this)
-```
-
----
-
-## Notes
-
-- This README contains concise, practical instructions for consumers. For CI/publishing workflows, add a `DEPLOY.md` and appropriate CI configuration if you plan to publish artifacts.
+This README contains concise, practical instructions for consumers. For CI/publishing workflows, add a `DEPLOY.md` and appropriate CI configuration if you plan to publish artifacts.
