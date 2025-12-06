@@ -117,13 +117,7 @@ With composite builds, Gradle substitutes the included build so the app compiles
 
 ## Alternative: Local publishing (mavenLocal)
 
-1. From the library directory:
-
-```bash
-./gradlew publishToMavenLocal
-```
-
-2. Add `mavenLocal()` to your app repositories and resolve the dependency.
+See the Japanese section above for the `publishToMavenLocal` command example. Add `mavenLocal()` to your app repositories to resolve the dependency.
 
 ---
 
