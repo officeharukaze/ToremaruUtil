@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# pre-push hook: run README checks and block push if failures
+set -e
+echo "Running README checks..."
+if command -v python3 >/dev/null 2>&1; then
+  python3 scripts/readme_check.py
+  rc=$?
+else
+  echo "python3 not found; skipping README check" >&2
+  rc=0
+fi
+if [ "$rc" -ne 0 ]; then
+  echo "README checks failed. Fix README.md before pushing." >&2
+  exit $rc
+fi
+echo "README checks passed. Continuing push."
+exit 0
