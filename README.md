@@ -25,7 +25,7 @@ dependencies {
 }
 ```
 
-Composite build を使うと、上記の依存宣言のままローカルのライブラリソースがビルドに差し替えられます。
+Composite build を使うと、上記の依存宣言のままローカルのライブラリリソースがビルドに差し替えられます。
 
 ### ローカル公開（代替）
 
@@ -116,7 +116,7 @@ data class Config(
 ## Notes
 
 - This README provides concise, practical steps for developers. Add `DEPLOY.md` or CI configs for publishing workflows when needed.
-# ToremaruTest
+
 
 ## 日本語
 
