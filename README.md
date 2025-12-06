@@ -6,11 +6,11 @@ ToremaruUtil は画面右下にアプリ名とバージョン（必要に応じ�
 
 概要
 
-最小導入手順と利用例を示します。詳細な CI/公開手順が必要な場合は `DEPLOY.md` を新たに追加してください。
+この README は最小導入手順と利用例を示します。CI や公開手順を記載する場合は `DEPLOY.md` を別途追加してください。
 
 ---
 
-クイックスタート（開発向け、ローカル）
+クイックスタート（推奨: ローカル開発 / composite build）
 
 1. ライブラリをアプリと同じ親ディレクトリにチェックアウトします（例: `../ToremaruUtil`）。
 2. アプリのルート `settings.gradle.kts` に次を追加します：
@@ -27,11 +27,13 @@ dependencies {
 }
 ```
 
-この方法（Gradle の composite build）により、ローカルのライブラリソースがアプリビルドに差し替えられます。
+この手順により、ローカルのライブラリソースがアプリビルドに差し替えられます。
 
 ---
 
 ローカル公開（必要な場合）
+
+ライブラリをローカルに公開して参照するにはライブラリ側で以下を実行してください：
 
 ```bash
 ./gradlew publishToMavenLocal
@@ -53,31 +55,40 @@ AppInfoOverlay.remove(this)
 
 ---
 
+設定例（ライブラリ側の Config）
+
+```kotlin
+data class Config(
+  val accentColorRes: Int? = null,
+  val showBuildNumber: Boolean = false
+)
+```
+
+---
+
 注意
 
 - この README は導入と最小利用例に絞っています。公開/配布手順を追加する場合は `DEPLOY.md` を作成してください。
+- ライブラリ変更後はアプリ側で `./gradlew :app:assembleDebug` 等を実行して動作確認を行ってください。
 
 ---
 
 Overview
 
-ToremaruUtil is a small Android library that displays the app name and version (optionally with a build number) as a compact overlay in the bottom-right corner for quick verification during development.
+ToremaruUtil displays the app name and version (optionally with a build number) as a compact overlay in the bottom-right corner for quick verification during development.
 
 Quick start (development)
 
-Use a local Gradle composite build — see the quick start above for the dependency example and local publish command.
+Use a local Gradle composite build; see the Japanese quick start above for exact commands and the single dependency example.
 
-Alternative: Local publishing (mavenLocal)
+Local publishing (mavenLocal)
 
-If you prefer to publish locally, run `publishToMavenLocal` in the library directory (see above).
+If you prefer to publish locally, run `./gradlew publishToMavenLocal` in the library directory and enable `mavenLocal()` in your app repositories.
 
 Usage (Activity)
 
-```kotlin
-AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200, showBuildNumber = false))
-AppInfoOverlay.remove(this)
-```
+Refer to the Japanese section's minimal Activity example for the usage snippet.
 
 Notes
 
-- Add `DEPLOY.md` for CI/publishing workflows if you plan to publish artifacts.
+Add `DEPLOY.md` for CI/publishing workflows if you plan to publish artifacts.
