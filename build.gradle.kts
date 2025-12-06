@@ -7,7 +7,7 @@ group = "com.github.officeharukaze"
 version = "0.1.1"
 
 android {
-    namespace = "net.harukaze.util.toremaruutil"
+    namespace = "net.harukaze.libs.toremaruutil"
     compileSdk = 36
 
     defaultConfig {
