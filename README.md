@@ -2,6 +2,88 @@
 
 ---
 
+## 概要
+
+このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さな Android 用ユーティリティです。
+開発時はローカルでの反復開発（ローカル composite build や `mavenLocal()`）を利用するワークフローを推奨します。
+
+## 使い方（導入例）
+
+- composite build（開発時の推奨）
+
+  1. アプリのルート `settings.gradle.kts` に次を追加します：
+
+  ```kotlin
+  includeBuild("../ToremaruUtil")
+  ```
+
+  2. アプリのモジュール `build.gradle.kts` に通常通り依存を記述します：
+
+  ```kotlin
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+  `includeBuild` を使うと Gradle がローカルのライブラリソースをビルドに差し替えます。
+
+- mavenLocal（ローカル公開）
+
+  1. ライブラリ側で `./gradlew publishToMavenLocal` を実行します。
+  2. アプリ側の `repositories` に `mavenLocal()` を追加して依存を解決します。
+
+```kotlin
+repositories {
+    mavenLocal()
+    mavenCentral()
+    google()
+}
+```
+
+注：このリポジトリの `group` は `com.github.officeharukaze`、`version` は `0.1.1` です。
+
+## Activity からの利用例
+
+```kotlin
+// オーバーレイを表示
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
+
+// オーバーレイを除去
+AppInfoOverlay.remove(this)
+```
+
+## 開発上のヒント
+
+- composite build を使う場合、アプリ側の `pluginManagement` で AGP/Kotlin のバージョンをルート側で解決しておくとプラグインの衝突を避けられます。
+- 公開アーティファクトが必要な場合は `maven-publish` を利用して GitHub Packages 等へ公開する運用を検討してください。
+
+---
+
+## English (short)
+
+Tiny Android utility that shows app name and version as an overlay in the bottom-right corner.
+
+Recommended development workflow: use a local composite build (`includeBuild("../ToremaruUtil")`) or `mavenLocal()` for fast iteration.
+
+Example (composite build):
+
+```kotlin
+// app root settings.gradle.kts
+includeBuild("../ToremaruUtil")
+
+// app module build.gradle.kts
+dependencies {
+  implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+}
+```
+
+Publishing: configure `maven-publish` and CI to publish artifacts to your preferred registry when needed.
+
+Notes: README intentionally concise and focused on local development workflows.
+# ToremaruUtil
+
+---
+
 # ToremaruUtil
 
 ---
@@ -353,6 +435,7 @@ handled at the app root so both projects use the same AGP and Kotlin versions.
 ## 日本語（概要）
 
 このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さな Android ユーティリティです。
+開発時は JitPack に公開する代わりに、ローカルの composite build（`../ToremaruUtil` を参照）や `mavenLocal()` を使って反復開発することを推奨します。
 
 ---
 
@@ -415,6 +498,7 @@ handled at the app root so both projects use the same AGP and Kotlin versions.
 
 - 開発中は composite build を使うと素早い反復が可能です。アプリ側の `pluginManagement` で AGP/Kotlin のバージョンをルート側で解決する設定にしておくと、複合ビルドでのプラグイン衝突を避けられます。
 
+- 公開したい場合は `maven-publish` を追加して GitHub Packages に公開するか、JitPack を利用する方法がありますが、本リポジトリではローカルでの composite ワークフローを推奨しています。
 
 ---
 
@@ -503,6 +587,7 @@ code in the bottom-right of the screen.
 ## 日本語（概要）
 
 このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さなユーティリティです。
+開発時は JitPack に公開する代わりに、ローカルの composite build（`../ToremaruUtil` を参照）か `mavenLocal()` を利用して反復開発することを推奨します。
 
 ---
 
@@ -636,6 +721,7 @@ dependencyResolutionManagement {
 
 ## Publishing
 
+- Tag a release (e.g. `v0.1.0`) and push to GitHub. JitPack can build from tags and provide a Maven coordinate.
 - Alternatively configure GitHub Packages in `build.gradle.kts` and a GitHub Actions workflow to publish on tag push.
 
 ## Notes
@@ -758,6 +844,7 @@ dependencyResolutionManagement {
 
 ## Publishing
 
+- Tag a release (e.g. `v0.1.0`) and push to GitHub. JitPack can build from tags and provide a Maven coordinate.
 - Alternatively configure GitHub Packages in `build.gradle.kts` and a GH Actions workflow to publish.
 
 ## Notes
