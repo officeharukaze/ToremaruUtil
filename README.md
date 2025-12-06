@@ -46,6 +46,29 @@ ToremaruUtil は画面右下にアプリ名とバージョン（オプション�
 
 1. ライブラリをアプリと同じ階層にチェックアウトします（例: `../ToremaruUtil`）。
 2. アプリのルート `settings.gradle.kts` に以下を追加します：
+# ToremaruUtil
+
+---
+
+## 概要
+
+ToremaruUtil は画面右下にアプリ名とバージョン（オプションでビルド番号）を表示する小さな Android ライブラリです。開発時の動作確認やデバッグで使うことを目的としています。
+
+---
+
+## 動作環境（短記）
+
+- Android Gradle Plugin 7.x〜8.x（プロジェクトに合わせてください）
+- Kotlin 1.8〜2.x（プロジェクトに合わせてください）
+
+---
+
+## クイックスタート（開発向け — 推奨）
+
+ローカルでライブラリを編集しながらアプリからすぐに確認するには、Gradle の composite build を使うのが便利です。
+
+1. ライブラリをアプリと同じ階層にチェックアウトします（例: `../ToremaruUtil`）。
+2. アプリのルート `settings.gradle.kts` に以下を追加します：
 
 ```kotlin
 includeBuild("../ToremaruUtil")
@@ -59,7 +82,7 @@ dependencies {
 }
 ```
 
-Composite build を使うと、上記の依存宣言のまま Gradle がローカルのライブラリソースを差し替えます。
+Composite build を使うと、上記の依存宣言のまま Gradle がローカルのライブラリリソースを差し替えます。
 
 ---
 
@@ -85,7 +108,7 @@ AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal
 AppInfoOverlay.remove(this)
 ```
 
-### Config の代表的なオプション（例）
+### Config の代表的な オプション（例）
 
 ```kotlin
 data class Config(
