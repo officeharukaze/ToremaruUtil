@@ -4,23 +4,53 @@ Small Android utility library. First feature: App info overlay that shows app na
 
 ## Usage
 
-Add dependency (via JitPack after publishing):
+Add dependency (recommended: use the local composite build or mavenLocal for development):
 
-1. Add JitPack to your repositories (root `build.gradle` or `settings.gradle.kts`):
+Examples:
 
-```kotlin
-repositories {
-    maven { url = uri("https://jitpack.io") }
-}
-```
+- Using the local composite build (recommended for development)
 
-2. Add dependency:
+    1. In the app root `settings.gradle.kts` add:
 
-```kotlin
-dependencies {
-    implementation("com.github.<your-org>:ToremaruUtil:0.1.0")
-}
-```
+    ```kotlin
+    includeBuild("../ToremaruUtil")
+    ```
+
+    2. Then in your app `build.gradle.kts` add the dependency using the library coordinate (Gradle will substitute the included build automatically):
+
+    ```kotlin
+    dependencies {
+            implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+    }
+    ```
+
+- Using a project dependency (if you include the library as a project/module inside the same repo)
+
+    ```kotlin
+    // settings.gradle.kts
+    include(":ToremaruUtil")
+
+    // app build.gradle.kts
+    dependencies {
+            implementation(project(":ToremaruUtil"))
+    }
+    ```
+
+- Using `mavenLocal()` (after `./gradlew publishToMavenLocal` in the library)
+
+    ```kotlin
+    repositories {
+            mavenLocal()
+            mavenCentral()
+            google()
+    }
+
+    dependencies {
+            implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+    }
+    ```
+
+Note: this repository's `group` is `com.github.officeharukaze` and `version` is `0.1.1`, so use that coordinate when depending on a published/local artifact.
 
 3. Use in Activity:
 
