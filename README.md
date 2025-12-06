@@ -480,7 +480,6 @@ handled at the app root so both projects use the same AGP and Kotlin versions.
 ## 日本語（概要）
 
 このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さな Android ユーティリティです。
-開発時は JitPack に公開する代わりに、ローカルの composite build（`../ToremaruUtil` を参照）や `mavenLocal()` を使って反復開発することを推奨します。
 
 ---
 
@@ -543,7 +542,6 @@ handled at the app root so both projects use the same AGP and Kotlin versions.
 
 - 開発中は composite build を使うと素早い反復が可能です。アプリ側の `pluginManagement` で AGP/Kotlin のバージョンをルート側で解決する設定にしておくと、複合ビルドでのプラグイン衝突を避けられます。
 
-- 公開したい場合は `maven-publish` を追加して GitHub Packages に公開するか、JitPack を利用する方法がありますが、本リポジトリではローカルでの composite ワークフローを推奨しています。
 
 ---
 
@@ -632,7 +630,6 @@ code in the bottom-right of the screen.
 ## 日本語（概要）
 
 このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さなユーティリティです。
-開発時は JitPack に公開する代わりに、ローカルの composite build（`../ToremaruUtil` を参照）か `mavenLocal()` を利用して反復開発することを推奨します。
 
 ---
 
@@ -766,7 +763,6 @@ dependencyResolutionManagement {
 
 ## Publishing
 
-- Tag a release (e.g. `v0.1.0`) and push to GitHub. JitPack can build from tags and provide a Maven coordinate.
 - Alternatively configure GitHub Packages in `build.gradle.kts` and a GitHub Actions workflow to publish on tag push.
 
 ## Notes
@@ -889,7 +885,6 @@ dependencyResolutionManagement {
 
 ## Publishing
 
-- Tag a release (e.g. `v0.1.0`) and push to GitHub. JitPack can build from tags and provide a Maven coordinate.
 - Alternatively configure GitHub Packages in `build.gradle.kts` and a GH Actions workflow to publish.
 
 ## Notes
