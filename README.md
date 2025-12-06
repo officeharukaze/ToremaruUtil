@@ -2,6 +2,169 @@
 
 ---
 
+## 概要
+
+このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さな Android 用ユーティリティです。
+開発中はローカルの composite build（`../ToremaruUtil` を参照）や `mavenLocal()` を利用して素早く反復するワークフローを推奨します。
+
+## 使い方 — 依存の追加
+
+代表的な導入方法を示します。JitPack 等の外部ビルドサービスに依存しないローカル中心の手順を推奨します。
+
+- composite build（推奨、開発時）
+
+  1. アプリのルート `settings.gradle.kts` に次を追加します：
+
+  ```kotlin
+  includeBuild("../ToremaruUtil")
+  ```
+
+  2. アプリの `build.gradle.kts` で通常通りライブラリ座標を指定します（例）：
+
+  ```kotlin
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+  Gradle が `includeBuild` を検出するとローカルのライブラリソースをビルドに差し替えます。
+
+- project モード（同一リポジトリ内にライブラリを配置する場合）
+
+  ```kotlin
+  // settings.gradle.kts
+  include(":ToremaruUtil")
+
+  // app build.gradle.kts
+  dependencies {
+      implementation(project(":ToremaruUtil"))
+  }
+  ```
+
+- mavenLocal（ローカル公開）
+
+  1. ライブラリで `./gradlew publishToMavenLocal` を実行します。
+  2. アプリの `repositories` に `mavenLocal()` を追加し、通常の座標を使って依存を指定します：
+
+  ```kotlin
+  repositories {
+      mavenLocal()
+      mavenCentral()
+      google()
+  }
+
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+注：このリポジトリの `group` は `com.github.officeharukaze`、`version` は `0.1.1` です。
+
+## 使い方 — Activity 内での呼び出し
+
+```kotlin
+// オーバーレイを表示（BuildConfig が使えなければ PackageManager を参照）
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
+
+// オーバーレイを除去
+AppInfoOverlay.remove(this)
+```
+
+## 開発・運用のヒント
+
+- composite build を使う場合、アプリ側の `pluginManagement` で AGP/Kotlin のバージョンをルートで解決する設定を行うと、プラグインの衝突を避けられます。
+- 本リポジトリはローカル中心の反復を重視しています。公開アーティファクトが必要な場合は `maven-publish` を設定して GitHub Packages 等に流す運用を検討してください。
+
+---
+
+Small Android utility library. The first feature is an app info overlay that shows the app name,
+version and build number in the bottom-right corner of the screen. For iterative development we
+recommend using a local composite build (`../ToremaruUtil`) or `mavenLocal()` rather than depending
+on remote build services.
+
+## Overview
+
+This repository provides a tiny library to display app name and version as an overlay. For rapid
+development prefer the composite build workflow or local publishing to `mavenLocal()`.
+
+## Usage — Adding the dependency
+
+Examples for including the library in your app:
+
+- Local composite build (recommended for development)
+
+  1. Add to your app root `settings.gradle.kts`:
+
+  ```kotlin
+  includeBuild("../ToremaruUtil")
+  ```
+
+  2. In your app's `build.gradle.kts` add the dependency using the library coordinate:
+
+  ```kotlin
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+  Gradle will substitute the included build automatically so the app compiles against the local
+  library sources.
+
+- Project mode (if the library is added as a module in the same repository)
+
+  ```kotlin
+  dependencies {
+      implementation(project(":ToremaruUtil"))
+  }
+  ```
+
+- Using `mavenLocal()` (after running `./gradlew publishToMavenLocal` in the library)
+
+  ```kotlin
+  repositories {
+      mavenLocal()
+      mavenCentral()
+      google()
+  }
+
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+Note: the project's `group` is `com.github.officeharukaze` and `version` is `0.1.1`.
+
+## Usage — Activity
+
+```kotlin
+// show overlay
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
+
+// remove overlay
+AppInfoOverlay.remove(this)
+```
+
+## Development
+
+You can develop locally using the composite-build approach or by publishing to `mavenLocal()` and
+consuming the artifact from the app. If you choose composite builds, ensure plugin resolution is
+handled at the app root so both projects use the same AGP and Kotlin versions.
+
+## Publishing
+
+- Tag a release (e.g. `v0.1.0`) and push to GitHub. Alternatively configure GitHub Packages with
+  `maven-publish` and a GitHub Actions workflow to publish on tag push.
+
+## Notes
+
+- The overlay is intended to be visible in production; avoid showing sensitive data such as commit
+  SHAs unless explicitly desired.
+- The API is intentionally minimal. Consider adding Compose helpers, additional customization
+  options, or other overlays in future releases.
+# ToremaruUtil
+
+---
+
 ## 日本語（概要）
 
 このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さな Android ユーティリティです。
