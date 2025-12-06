@@ -4,42 +4,117 @@
 
 ## 概要
 
-ToremaruUtil は、画面右下に小さくアプリ名とバージョン（オプションでビルド番号）を表示する小さな Android ライブラリです。開発時の動作確認やデバッグに使います。
+ToremaruUtil は、画面右下に小さく「アプリ名」と「バージョン（オプションでビルド番号）」を表示する軽量な Android ライブラリです。主に開発時の目視確認やデバッグ用途を想定しています。
 
-## クイックスタート（開発向け）
+この README は利用者（開発者）向けに、導入手順と基本的な使い方を最短で示します。公開（CI 連携やパブリッシュ）に関する詳細は `DEPLOY.md` を用意してください。
 
-推奨: ローカルの composite build を使う方法。
+---
 
-1. ライブラリをアプリと同じ階層にチェックアウトする（例: sibling に `ToremaruUtil`）。
-2. アプリのルート `settings.gradle.kts` に次を追加します：
+## 動作環境（短記）
 
+- Android Gradle Plugin 7.x〜8.x（プロジェクト環境に合わせてください）
+- Kotlin 1.8〜2.x（プロジェクトと整合させてください）
 
+---
 
-3. アプリのモジュール `build.gradle.kts` に依存を追加します（例）：
+## クイックスタート（開発向け — 推奨）
 
+最もシンプルで推奨するのは Gradle の composite build を使う方法です。ローカルでライブラリを編集しながらアプリ側からすぐに確認できます。
 
+1. このライブラリをアプリの親ディレクトリに sibling としてチェックアウトします（例: `/path/to/app` と `/path/to/ToremaruUtil`）。
 
-Composite build を使うと、上記の依存宣言のままローカルのライブラリリソースがビルドに差し替えられます。
+# ToremaruUtil
 
-### ローカル公開（代替）
+---
 
-1. ライブラリ側でローカル公開を行う:
+## 概要
 
+ToremaruUtil は画面右下にアプリ名とバージョン（オプションでビルド番号）を表示する小さな Android ライブラリです。開発時の動作確認やデバッグで使うことを目的としています。
 
+---
 
-2. アプリ側に `mavenLocal()` を追加して依存を解決します。
+## 動作環境（短記）
 
-## Activity からの利用例
+- Android Gradle Plugin 7.x〜8.x（プロジェクトに合わせてください）
+- Kotlin 1.8〜2.x（プロジェクトに合わせてください）
 
+---
 
+## クイックスタート（開発向け — 推奨）
 
-例: `AppInfoOverlay.Config` の代表的なオプション
+ローカルでライブラリを編集しながらアプリからすぐに確認するには、Gradle の composite build を使うのが便利です。
 
+1. ライブラリをアプリと同じ階層にチェックアウトします（例: `../ToremaruUtil`）。
+2. アプリのルート `settings.gradle.kts` に以下を追加します：
 
+```kotlin
+includeBuild("../ToremaruUtil")
+```
 
-## 注意点
+3. アプリのモジュール `build.gradle.kts` に依存を追加します（例）:
 
-- この README はライブラリ利用者向けの最小導入手順を示します。CI 連携や公開手順が必要な場合は別ファイル（例: `DEPLOY.md`）で詳述してください。
+```kotlin
+dependencies {
+  implementation("com.github.officeharukaze:ToremaruUtil:0.1.0")
+}
+```
+
+Composite build を使うと、上記の依存宣言のまま Gradle がローカルのライブラリソースを差し替えます。
+
+---
+
+## 代替：ローカル公開（mavenLocal）
+
+ローカルにビルド済みアーティファクトを置いて参照する場合は `publishToMavenLocal` を使えます。
+
+```bash
+./gradlew publishToMavenLocal
+```
+
+アプリ側に `mavenLocal()` を追加して依存を解決してください。
+
+---
+
+## Activity での使い方（例）
+
+```kotlin
+// 表示
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200, showBuildNumber = false))
+
+// 削除
+AppInfoOverlay.remove(this)
+```
+
+### Config の代表的なオプション（例）
+
+```kotlin
+data class Config(
+  val accentColorRes: Int? = null,
+  val showBuildNumber: Boolean = false
+)
+```
+
+実際の API シグネチャは `AppInfoOverlay` のソースを参照してください。
+
+---
+
+## トラブルシューティング
+
+- Overlay が表示されない場合：Activity のレイアウトやテーマでオーバーレイが隠れていないか確認してください。必要なら `z` 座標の調整やウィンドウ属性を見直します。
+- 依存解決でローカルが使われない場合：`includeBuild` のパス、`settings.gradle.kts` の `pluginManagement`／`dependencyResolutionManagement` を確認してください。
+
+---
+
+## 開発のヒント
+
+- アプリとライブラリで AGP / Kotlin のバージョンを揃えるため、ルートの `pluginManagement` でプラグイン解決を集中させると衝突を避けられます。
+- ライブラリを変更したらアプリ側で `./gradlew :app:assembleDebug` を実行して動作確認してください。
+
+---
+
+## ライセンス
+
+このリポジトリに適用するライセンス（例: MIT）をここに記載してください。まだ決めていない場合は `LICENSE` ファイルを追加してください。
 
 ---
 
@@ -47,37 +122,52 @@ Composite build を使うと、上記の依存宣言のままローカルのラ�
 
 ToremaruUtil is a small Android library that displays the app name and version (optionally with a build number) as a compact overlay in the bottom-right corner. It is intended for quick verification during development.
 
+---
+
 ## Quick start (development)
 
-Recommended: use a local composite build.
+Recommended: use a local Gradle composite build.
 
 1. Keep a sibling checkout of this library next to your app (e.g. `../ToremaruUtil`).
 2. In the app root `settings.gradle.kts` add:
 
-
+```kotlin
+includeBuild("../ToremaruUtil")
+```
 
 3. Add the dependency in your app module (example):
 
-
+```kotlin
+dependencies {
+  implementation("com.github.officeharukaze:ToremaruUtil:0.1.0")
+}
+```
 
 With composite builds, Gradle substitutes the included build so the app compiles against local library sources.
 
-### Local publishing (alternative)
+---
 
-1. Publish locally from the library directory:
+## Alternative: Local publishing (mavenLocal)
 
+1. From the library directory:
 
+```bash
+./gradlew publishToMavenLocal
+```
 
 2. Add `mavenLocal()` to your app repositories and resolve the dependency.
 
+---
+
 ## Usage (Activity)
 
+```kotlin
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200, showBuildNumber = false))
+AppInfoOverlay.remove(this)
+```
 
-
-Example `Config`:
-
-
+---
 
 ## Notes
 
-- This README provides concise, practical steps for developers. Add `DEPLOY.md` or CI configs for publishing workflows when needed.
+- This README contains concise, practical instructions for consumers. For CI/publishing workflows, add a `DEPLOY.md` and appropriate CI configuration if you plan to publish artifacts.
