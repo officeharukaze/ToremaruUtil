@@ -3,81 +3,69 @@
 
 ---
 
-## 日本語（前半）
+## 日本語
 
 ### 概要
 
-ToremaruUtil は、画面右下に小さく「アプリ名」と「バージョン（+ ビルド番号）」を表示する軽量な Android ライブラリです。開発中にアプリ上で動作を確認したいときに利用します。
+ToremaruUtil は、画面右下に小さく「アプリ名」と「バージョン（およびビルド番号）」を表示する軽量な Android ライブラリです。開発中の動作確認やデバッグに便利です。
 
-### 推奨ワークフロー（開発時）
+### 簡単な導入手順（開発時）
 
-- Composite build（開発時推奨）
-
-  1. アプリのルート `settings.gradle.kts` に次を追加します：
-
-  ```kotlin
-  includeBuild("../ToremaruUtil")
-  ```
-
-  2. アプリの `build.gradle.kts` では普通に依存を宣言してください（Composite build はローカルのソースを自動的に差し替えます）。
-
-- ローカル公開（`mavenLocal()` を利用）
-
-  1. ライブラリ側で `./gradlew publishToMavenLocal` を実行します。  
-  2. アプリ側の `repositories` に `mavenLocal()` を追加して依存を解決します。
-
-### 使い方（Activity）
+1. 開発中はライブラリをアプリと同じ階層にチェックアウトし、アプリの `settings.gradle.kts` に次を追加します：
 
 ```kotlin
-// オーバーレイを表示
-AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
+includeBuild("../ToremaruUtil")
+```
 
-// オーバーレイを除去
+2. アプリ側の `build.gradle.kts` で通常通り依存を宣言します（例）：
+
+```kotlin
+dependencies {
+  implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+}
+```
+
+3. Activity から呼び出します：
+
+```kotlin
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
 AppInfoOverlay.remove(this)
 ```
 
-### 備考
-
-- この README はローカル中心の開発フローに焦点を当てています。ホスティングされたアーティファクトが必要な場合は別途 `DEPLOY.md` を作成して手順を追加してください。
+必要に応じて `mavenLocal()` に公開して使うこともできます。
 
 ---
 
-## English (second)
+## English
 
 ### Overview
 
-ToremaruUtil is a tiny Android library that displays the app name and version (optionally with a build number) as a small overlay in the bottom-right corner of the screen. It is intended for quick verification during development.
+ToremaruUtil is a small Android library that displays the app name and version (optionally with a build number) as a compact overlay in the bottom-right corner of the screen. It is useful for quick verification during development.
 
-### Recommended development workflows
+### Quick start (development)
 
-- Composite build (recommended for development)
-
-  1. Add the following to your app root `settings.gradle.kts`:
-
-  ```kotlin
-  includeBuild("../ToremaruUtil")
-  ```
-
-  2. Declare the dependency in your app module as usual; Gradle will substitute the included build with local sources.
-
-- Local publishing to `mavenLocal()`
-
-  1. Run `./gradlew publishToMavenLocal` in the library project.  
-  2. Add `mavenLocal()` to your app repositories and resolve the dependency normally.
-
-### Usage (Activity)
+1. Keep a sibling checkout of this library and add to the app's `settings.gradle.kts`:
 
 ```kotlin
-// show overlay
-AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
+includeBuild("../ToremaruUtil")
+```
 
-// remove overlay
+2. Add the dependency in the app module:
+
+```kotlin
+dependencies {
+  implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+}
+```
+
+3. Call from an Activity:
+
+```kotlin
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
 AppInfoOverlay.remove(this)
 ```
 
-### Notes
-
-- This README intentionally focuses on local development workflows. Add `DEPLOY.md` for hosted publishing procedures if required.
+For CI-based publishing, configure `maven-publish` and your preferred registry.
 # ToremaruUtil
 
 ---
