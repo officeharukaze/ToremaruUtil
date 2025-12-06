@@ -1,4 +1,4 @@
-package net.harukaze.toremaruutil
+package net.harukaze.util.toremaruutil
 
 import android.app.Activity
 import android.content.pm.PackageManager
@@ -13,10 +13,6 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 
-/**
- * Minimal, self-contained overlay helper to show app name + version in the bottom-right.
- * Designed to be easy to call from an Activity: AppInfoOverlay.install(activity)
- */
 object AppInfoOverlay {
 
     data class Config(
@@ -30,14 +26,12 @@ object AppInfoOverlay {
 
     fun install(activity: Activity, config: Config = Config(), explicitText: String? = null) {
         val root = activity.findViewById<ViewGroup>(android.R.id.content)
-        // remove existing
         try {
             val existing = root.findViewWithTag<View>(TAG_VIEW)
             if (existing != null) root.removeView(existing)
         } catch (_: Exception) {}
 
         val versionText = explicitText ?: run {
-            // Prefer BuildConfig.APP_VERSION_NAME / APP_VERSION_CODE if available via reflection
             try {
                 val bc = Class.forName(activity.packageName + ".BuildConfig")
                 val nameField = bc.getField("APP_VERSION_NAME")
@@ -65,12 +59,10 @@ object AppInfoOverlay {
             isFocusable = false
             maxLines = 1
             tag = TAG_VIEW
-            // shadow for readability
             setShadowLayer(2f, 1f, 1f, Color.argb(160, 0, 0, 0))
             gravity = Gravity.END or Gravity.BOTTOM
         }
 
-        // highlight app name like ToremaruHome if possible
         try {
             val appName = activity.getString(activity.applicationInfo.labelRes)
             val idx = versionText.indexOf(appName)
