@@ -1,5 +1,157 @@
 # ToremaruUtil
 
+---
+
+## 日本語（概要）
+
+このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さな Android ユーティリティです。
+開発時は JitPack に公開する代わりに、ローカルの composite build（`../ToremaruUtil` を参照）や `mavenLocal()` を使って反復開発することを推奨します。
+
+---
+
+## 日本語（使い方 — 依存の追加）
+
+以下は代表的な導入方法です。開発中は「composite build」または「mavenLocal」を使うのが便利です。
+
+- composite build（推奨、開発時）
+
+  1. アプリのルート `settings.gradle.kts` に次を追加します：
+
+  ```kotlin
+  includeBuild("../ToremaruUtil")
+  ```
+
+  2. アプリの `build.gradle.kts` では通常通りライブラリ座標を指定します（例）：
+
+  ```kotlin
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+  Gradle はローカルの `includeBuild` を自動で差し替え、ライブラリのソースを直接ビルドに取り込みます。
+
+- project モード（同リポジトリ内にライブラリを置く場合）
+
+  ```kotlin
+  // settings.gradle.kts
+  include(":ToremaruUtil")
+
+  // app build.gradle.kts
+  dependencies {
+      implementation(project(":ToremaruUtil"))
+  }
+  ```
+
+- mavenLocal（ローカル公開）
+
+  1. ライブラリで `./gradlew publishToMavenLocal` を実行します。
+  2. アプリ側の `repositories` に `mavenLocal()` を追加し、次のように依存を指定します：
+
+  ```kotlin
+  repositories {
+      mavenLocal()
+      mavenCentral()
+      google()
+  }
+
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+注：このリポジトリの `group` は `com.github.officeharukaze`、`version` は `0.1.1` です。公開済み／ローカル公開アーティファクトを使う場合はこの座標を使用してください。
+
+---
+
+## 日本語（開発・運用）
+
+- 開発中は composite build を使うと素早い反復が可能です。アプリ側の `pluginManagement` で AGP/Kotlin のバージョンをルート側で解決する設定にしておくと、複合ビルドでのプラグイン衝突を避けられます。
+
+- 公開したい場合は `maven-publish` を追加して GitHub Packages に公開するか、JitPack を利用する方法がありますが、本リポジトリではローカルでの composite ワークフローを推奨しています。
+
+---
+
+## English (Overview)
+
+Small Android utility library. The first feature is an app info overlay that shows the app name,
+version and build number in the bottom-right corner of the screen. For iterative development we
+recommend using a local composite build (`../ToremaruUtil`) or `mavenLocal()` rather than depending
+on a remote artifact provider.
+
+---
+
+## English (Usage — Adding the dependency)
+
+Examples for including the library in your app:
+
+- Local composite build (recommended for development)
+
+  1. Add to your app root `settings.gradle.kts`:
+
+  ```kotlin
+  includeBuild("../ToremaruUtil")
+  ```
+
+  2. In your app's `build.gradle.kts` add the dependency using the library coordinate:
+
+  ```kotlin
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+  Gradle will substitute the included build automatically so the app compiles against the local
+  library sources.
+
+- Project mode (if the library is added as a module in the same repository)
+
+  ```kotlin
+  dependencies {
+      implementation(project(":ToremaruUtil"))
+  }
+  ```
+
+- Using `mavenLocal()` (after running `./gradlew publishToMavenLocal` in the library)
+
+  ```kotlin
+  repositories {
+      mavenLocal()
+      mavenCentral()
+      google()
+  }
+
+  dependencies {
+      implementation("com.github.officeharukaze:ToremaruUtil:0.1.1")
+  }
+  ```
+
+Note: the project's `group` is `com.github.officeharukaze` and `version` is `0.1.1`.
+
+---
+
+## English (Development)
+
+You can develop locally using the composite build approach or by publishing to `mavenLocal()` and
+consuming the artifact from the app. If you choose composite builds, ensure plugin resolution is
+handled at the app root (see `pluginManagement` examples) so both projects use the same AGP and
+Kotlin versions.
+
+## Publishing
+
+- Tag a release (e.g. `v0.1.0`) and push to GitHub. JitPack can build from tags and provide a
+  Maven coordinate.
+- Or configure GitHub Packages with `maven-publish` and a GitHub Actions workflow to publish on
+  tag push.
+
+## Notes
+
+- The overlay is intended to be visible in production; avoid showing sensitive data such as commit
+  SHAs unless explicitly desired.
+- The API is intentionally minimal. Consider adding Compose helpers, additional customization
+  options, or other overlays in future releases.
+# ToremaruUtil
+
 Small Android utility library. First feature: App info overlay that shows app name, version and build
 code in the bottom-right of the screen.
 
