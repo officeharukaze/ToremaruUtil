@@ -1,7 +1,10 @@
 plugins {
-    id("com.android.library") version "7.4.2"
-    id("org.jetbrains.kotlin.android") version "1.8.21"
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
 }
+
+group = "com.github.officeharukaze"
+version = "0.1.1"
 
 android {
     namespace = "net.harukaze.toremaruutil"
@@ -10,8 +13,6 @@ android {
     defaultConfig {
         minSdk = 24
         consumerProguardFiles("consumer-rules.pro")
-        versionName = "0.1.0"
-        versionCode = 1
     }
 
     compileOptions {
