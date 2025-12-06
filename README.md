@@ -1,53 +1,4 @@
 # ToremaruUtil
-
----
-
-## 概要
-
-ToremaruUtil は、画面右下に小さく「アプリ名」と「バージョン（オプションでビルド番号）」を表示する軽量な Android ライブラリです。主に開発時の目視確認やデバッグ用途を想定しています。
-
-この README は利用者（開発者）向けに、導入手順と基本的な使い方を最短で示します。公開（CI 連携やパブリッシュ）に関する詳細は `DEPLOY.md` を用意してください。
-
----
-
-## 動作環境（短記）
-
-- Android Gradle Plugin 7.x〜8.x（プロジェクト環境に合わせてください）
-- Kotlin 1.8〜2.x（プロジェクトと整合させてください）
-
----
-
-## クイックスタート（開発向け — 推奨）
-
-最もシンプルで推奨するのは Gradle の composite build を使う方法です。ローカルでライブラリを編集しながらアプリ側からすぐに確認できます。
-
-1. このライブラリをアプリの親ディレクトリに sibling としてチェックアウトします（例: `/path/to/app` と `/path/to/ToremaruUtil`）。
-
-# ToremaruUtil
-
----
-
-## 概要
-
-ToremaruUtil は画面右下にアプリ名とバージョン（オプションでビルド番号）を表示する小さな Android ライブラリです。開発時の動作確認やデバッグで使うことを目的としています。
-
----
-
-## 動作環境（短記）
-
-- Android Gradle Plugin 7.x〜8.x（プロジェクトに合わせてください）
-- Kotlin 1.8〜2.x（プロジェクトに合わせてください）
-
----
-
-## クイックスタート（開発向け — 推奨）
-
-ローカルでライブラリを編集しながらアプリからすぐに確認するには、Gradle の composite build を使うのが便利です。
-
-1. ライブラリをアプリと同じ階層にチェックアウトします（例: `../ToremaruUtil`）。
-2. アプリのルート `settings.gradle.kts` に以下を追加します：
-# ToremaruUtil
-
 ---
 
 ## 概要
@@ -108,7 +59,7 @@ AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal
 AppInfoOverlay.remove(this)
 ```
 
-### Config の代表的な オプション（例）
+### Config の代表的なオプション（例）
 
 ```kotlin
 data class Config(
@@ -171,6 +122,29 @@ With composite builds, Gradle substitutes the included build so the app compiles
 ---
 
 ## Alternative: Local publishing (mavenLocal)
+
+1. From the library directory:
+
+```bash
+./gradlew publishToMavenLocal
+```
+
+2. Add `mavenLocal()` to your app repositories and resolve the dependency.
+
+---
+
+## Usage (Activity)
+
+```kotlin
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200, showBuildNumber = false))
+AppInfoOverlay.remove(this)
+```
+
+---
+
+## Notes
+
+- This README contains concise, practical instructions for consumers. For CI/publishing workflows, add a `DEPLOY.md` and appropriate CI configuration if you plan to publish artifacts.
 
 1. From the library directory:
 
