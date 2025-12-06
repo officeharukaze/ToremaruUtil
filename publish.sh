@@ -56,9 +56,9 @@ fi
 
 git push origin --tags
 
-# JitPack URL hint
+# Info
 echo
 echo "Repository pushed: https://github.com/$FULL_REPO"
-echo "If you want to use JitPack, reference: https://jitpack.io/#${FULL_REPO}/${VERSION#v}"
+echo "To publish artifacts, consider configuring 'maven-publish' and a CI workflow (e.g. GitHub Actions) to publish to GitHub Packages or your preferred registry."
 
 echo "Done."

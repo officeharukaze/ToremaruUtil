@@ -165,7 +165,7 @@ includeBuild("../ToremaruUtil")
 
 ## 使い方 — 依存の追加
 
-代表的な導入方法を示します。JitPack 等の外部ビルドサービスに依存しないローカル中心の手順を推奨します。
+代表的な導入方法を示します。開発時は外部ビルドサービスへの依存を避け、ローカル中心の手順（`includeBuild` / `mavenLocal` 等）を推奨します。
 
 - composite build（推奨、開発時）
 
@@ -308,8 +308,7 @@ handled at the app root so both projects use the same AGP and Kotlin versions.
 
 ## Publishing
 
-- Tag a release (e.g. `v0.1.0`) and push to GitHub. Alternatively configure GitHub Packages with
-  `maven-publish` and a GitHub Actions workflow to publish on tag push.
+- Tag a release (e.g. `v0.1.0`) and push to GitHub. Alternatively, configure `maven-publish` and a GitHub Actions workflow to publish artifacts to GitHub Packages or another repository manager.
 
 ## Notes
 
@@ -458,10 +457,7 @@ Kotlin versions.
 
 ## Publishing
 
-- Tag a release (e.g. `v0.1.0`) and push to GitHub. JitPack can build from tags and provide a
-  Maven coordinate.
-- Or configure GitHub Packages with `maven-publish` and a GitHub Actions workflow to publish on
-  tag push.
+- Tag a release (e.g. `v0.1.0`) and push to GitHub. Configure `maven-publish` and a CI workflow to publish artifacts to GitHub Packages or similar services if you need hosted artifacts.
 
 ## Notes
 
