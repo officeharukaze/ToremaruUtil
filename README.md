@@ -73,22 +73,34 @@ data class Config(
 
 ---
 
+
 Overview
 
-ToremaruUtil displays the app name and version (optionally with a build number) as a compact overlay in the bottom-right corner for quick verification during development.
+ToremaruUtil shows the app name and version (optionally including a build number) in a compact overlay at the bottom-right of the screen. It is intended to help developers quickly verify which build is running during development and testing.
 
 Quick start (development)
 
-Use a local Gradle composite build; see the Japanese quick start above for exact commands and the single dependency example.
+Recommended: use a local Gradle composite build to develop the library side-by-side with your app.
 
-Local publishing (mavenLocal)
+- Place this library next to your app (for example `../ToremaruUtil`).
+- Add `includeBuild("../ToremaruUtil")` to the app root `settings.gradle.kts`.
+- See the Japanese quick start above for the single dependency example to add in your app module.
 
-If you prefer to publish locally, run `./gradlew publishToMavenLocal` in the library directory and enable `mavenLocal()` in your app repositories.
+When using a composite build, Gradle substitutes the included build so your app compiles against local library sources.
+
+Local publishing (optional)
+
+If you prefer to publish a local artifact instead of using a composite build, see the Japanese section for the local publish command and add `mavenLocal()` to your app repositories.
 
 Usage (Activity)
 
-Refer to the Japanese section's minimal Activity example for the usage snippet.
+Call the library from an Activity to install or remove the overlay; see the Japanese section's minimal usage snippet for the concrete code example.
+
+Configuration
+
+See the Japanese `Config` example above for available configuration options.
 
 Notes
 
-Add `DEPLOY.md` for CI/publishing workflows if you plan to publish artifacts.
+- This README provides concise setup and usage instructions. If you plan to add CI or publishing workflows, add a `DEPLOY.md` with details.
+- After modifying the library, run `./gradlew :app:assembleDebug` in your app to verify the change.
