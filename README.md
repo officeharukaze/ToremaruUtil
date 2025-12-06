@@ -2,6 +2,51 @@
 
 ---
 
+このリポジトリは、画面右下にアプリ名とバージョンを表示する小さな Android 用ユーティリティを提供します。
+
+## 開発（推奨ワークフロー）
+
+速い反復開発のために、ローカル中心のワークフローを推奨します。
+
+- Composite build（開発時の推奨）
+
+  アプリのルート `settings.gradle.kts` に次を追加します：
+
+  ```kotlin
+  includeBuild("../ToremaruUtil")
+  ```
+
+  アプリ側のモジュール `build.gradle.kts` に通常通り依存を記述します。
+
+- mavenLocal（ローカル公開）
+
+  ライブラリで `./gradlew publishToMavenLocal` を実行し、アプリ側で `mavenLocal()` を使って依存を取得します。
+
+## 使い方（Activity）
+
+```kotlin
+// 表示
+AppInfoOverlay.install(this, AppInfoOverlay.Config(accentColorRes = R.color.teal_200))
+
+// 除去
+AppInfoOverlay.remove(this)
+```
+
+## 公開
+
+必要に応じて `maven-publish` と CI（例: GitHub Actions）を設定し、好みのレジストリへ公開してください。
+
+---
+
+English (short)
+
+Tiny Android utility that shows app name and version as an overlay in the bottom-right corner.
+
+Recommended development workflow: use a local composite build (`includeBuild("../ToremaruUtil")`) or publish to `mavenLocal()` for iteration.
+# ToremaruUtil
+
+---
+
 ## 概要
 
 このライブラリは、画面右下にアプリ名とバージョン（およびビルド番号）を表示するための小さな Android 用ユーティリティです。
