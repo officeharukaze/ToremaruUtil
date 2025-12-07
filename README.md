@@ -5,29 +5,35 @@
 
 ## 前提
 - Android: minSdk 24+、compileSdk 36
-- ビルド環境: Kotlin 2.x / AGP 8.x で動作
+- ビルド環境: Kotlin 2.x / AGP 8.x
 
-## 導入（現在の推奨: ソース導入／composite build）
-ライブラリのソースをそのままアプリに取り込んで利用します。
-
+## 導入（ソース導入／composite build）
 1. ライブラリをアプリと同じ親ディレクトリに配置（例: `../ToremaruUtil`）。
-2. アプリ側 `settings.gradle.kts` に以下を追加:
+2. アプリ側 `settings.gradle.kts` に追加:
 ```kotlin
 if (file("../ToremaruUtil").exists()) {
   includeBuild("../ToremaruUtil")
 }
 ```
-3. アプリ側のリポジトリ設定は通常どおり:
+3. アプリのリポジトリ設定は通常どおり:
 ```kotlin
 dependencyResolutionManagement {
-  repositories {
-    google()
-    mavenCentral()
-  }
+  repositories { google(); mavenCentral() }
 }
 ```
+4. CIでの準備（GitHub Actionsの例）:
+```yaml
+- name: Prepare ToremaruUtil (composite)
+  run: |
+    git -C .. clone https://github.com/officeharukaze/ToremaruUtil.git || true
+    test -d ../ToremaruUtil && echo "ToremaruUtil prepared"
+```
+> CIでも `../ToremaruUtil` を用意すると、上記の存在チェックが真になり composite build が有効化されます。存在しない場合は安全にスキップされます。
 
-※ 外部レジストリ（例: GitHub Packages / Maven Central）経由の配布は今後検討します。現時点ではソース導入のみを案内します。
+5. 動作確認:
+```zsh
+./gradlew :app:assembleDebug
+```
 
 ## 使い方
 ### 表示
@@ -50,11 +56,14 @@ AppInfoOverlay.remove(this)
 - 表示内容: アプリ名（`applicationInfo.label`）とバージョン名（`PackageInfo.versionName`）。
 - ビルド番号: `Config.showBuildNumber = true` の場合、標準のバージョンコード（APIにより `versionCode` / `longVersionCode`）を併記可能。
 - レイアウト: `Activity` のウィンドウ直下にオーバレイビューを追加し、右下に配置。
-- 設定: `Config(accentColorRes: Int? = null, showBuildNumber: Boolean = false)`
+
+## 設定（Config）
+- `accentColorRes: Int? = null` — オーバレイのアクセント色。
+- `showBuildNumber: Boolean = false` — バージョンコードの併記可否。
 
 ## 注意
-- 本番で常時表示したくない場合は、ビルドタイプやフラグで `install()` 呼び出しを制御してください（例: `if (BuildConfig.DEBUG) { ... }`）。
-- 環境識別を強化したい場合は、アクセント色や追加ラベルの運用を推奨します。
+- 本番で常時表示したくない場合は、ビルドタイプやフラグで `install()` 呼び出しを制御（例: `if (BuildConfig.DEBUG) { ... }`）。
+- 環境識別を強化したい場合は、アクセント色や追加ラベルの運用を推奨。
 
 ## ライセンス
 Apache License 2.0（SPDX-License-Identifier: Apache-2.0）。詳細は `LICENSE` を参照してください。
