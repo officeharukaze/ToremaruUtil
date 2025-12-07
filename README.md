@@ -14,7 +14,7 @@
 # 親ディレクトリに移動（あなたのプロジェクト構成に合わせて変更）
 cd ..
 # HTTPSでクローン（SSH利用者は git@github.com:... を使用しても可）
-git clone https://github.com/officeharukaze/ToremaruUtil.git
+(cd ..; git clone https://github.com/officeharukaze/ToremaruUtil.git)
 # 期待する配置: ../ToremaruUtil
 ls -la ../ | grep ToremaruUtil
 ```
